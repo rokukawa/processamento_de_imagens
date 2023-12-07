@@ -58,6 +58,6 @@ Certifique-se de ter o Python 3.10 instalado em seu sistema. Você pode baixá-l
 
 ``` pip install opencv-python numpy scikit-learn progress scikit-image ```
 
-Execução do Código:
+#### Execução do Código:
 
 ``` python3 lbp_FeatureExtration.py ``` ou ``` python3 huMoments_FeatureExtration.py ```
