@@ -4,7 +4,7 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 from progress.bar import Bar
 from skimage import feature
 import time
@@ -37,10 +37,21 @@ def main():
     
     print(f'[INFO] Acurácia do classificador no conjunto de teste: {test_accuracy * 100:.2f}%')
     
-    saveData(testFeaturePath, testEncodedLabels, testFeatures, encoderClasses)
-
     elapsedTime = round(time.time() - mainStartTime, 2)
     print(f'[INFO] Código executado em: {elapsedTime}s')
+
+    # Fazer previsões no conjunto de teste
+    predictions = classifier.predict(testFeatures)
+
+    # Calcular a acurácia no conjunto de teste
+    test_accuracy = accuracy_score(testEncodedLabels, predictions)
+    print(f'[INFO] Acurácia do classificador no conjunto de teste: {test_accuracy * 100:.2f}%')
+
+    # Gerar e imprimir a matriz de confusão
+    confusion_mat = confusion_matrix(testEncodedLabels, predictions)
+    print(f'[INFO] Matriz de Confusão:\n{confusion_mat}')
+
+    saveData(testFeaturePath, testEncodedLabels, testFeatures, encoderClasses)
 
 def train_and_evaluate(features, labels):
     # Dividir os dados em conjuntos de treinamento e teste
@@ -90,7 +101,7 @@ def getData(path):
 def extractLBPFeatures(images):
     bar = Bar('[INFO] Extracting LBP features...', max=len(images), suffix='%(index)d/%(max)d  Duration:%(elapsed)ds')
     featuresList = []
-    
+
     for image in images:
         if np.ndim(image) > 2:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

@@ -11,16 +11,21 @@ def main():
     testImagePath = './images_split/test/'
     trainFeaturePath = './features_labels/train/'
     testFeaturePath = './features_labels/test/'
+
     print(f'[INFO] ========= TRAINING IMAGES ========= ')
     trainImages, trainLabels = getData(trainImagePath)
     trainEncodedLabels, encoderClasses = encodeLabels(trainLabels)
     trainFeatures = extractGrayHistogramFeatures(trainImages)
+
     saveData(trainFeaturePath,trainEncodedLabels,trainFeatures,encoderClasses)
+
     print(f'[INFO] =========== TEST IMAGES =========== ')
     testImages, testLabels = getData(testImagePath)
     testEncodedLabels, encoderClasses = encodeLabels(testLabels)
     testFeatures = extractGrayHistogramFeatures(testImages)
+    
     saveData(testFeaturePath,testEncodedLabels,testFeatures,encoderClasses)
+
     elapsedTime = round(time.time() - mainStartTime,2)
     print(f'[INFO] Code execution time: {elapsedTime}s')
 
